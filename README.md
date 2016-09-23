@@ -12,11 +12,6 @@ Create an Heroku app:
 
     heroku create APP_NAME
 
-Add database for persistance:
-
-    heroku addons:create heroku-postgresql:hobby-dev
-    heroku config:set DATABASE_URL=<copy the newly created database url here>
-
 Configure the app by providing your broker url (RabbitMQ, Redis, what have you) and a password for logging into Flower:
 
     heroku config:set BROKER_URL=redis://...
@@ -27,3 +22,5 @@ Push to heroku:
     git push heroku master
 
 Now visit the app. It will ask for a username and a password which you defined above.
+
+Although Flower's persistence is enabled, it depends on writing to the local filesystem, [which is ephemeral on Heroku](http://stackoverflow.com/questions/12416738/how-to-use-herokus-ephemeral-filesystem). Therefore the persisted data will be lost when your Heroku Dyno restarts, for example after deploying config or code changes. However Flower persistence is [mostly a convenience feature](http://flower.readthedocs.io/en/latest/config.html#persistent).
